@@ -1,0 +1,32 @@
+##!/bin/bash
+#PBS -l nodes=1:ppn=36:cascadelake 
+#PBS -l walltime=24:00:00
+#PBS -N param_sweep
+#PBS -A lp_caps
+#PBS -o stdout.$PBS_JOBID
+#PBS -e stderr.$PBS_JOBID
+#PBS -m a
+#PBS -m b
+#PBS -m e
+#PBS -M genius@bindgen.net
+
+# set PATH to use atools
+export PATH="/vsc-hard-mounts/leuven-apps/skylake/2018a/software/atools/1.4.7/bin/../lib/../bin:${PATH}"
+
+# start logging
+alog --state start
+source <(aenv --shell bash --data ~/params_dpd.csv)
+
+module load HDF5/1.10.1-intel-2018a git FFTW CMake GSL Boost/1.68.0-intel-2018a-Python-3.6.4 Doxygen/1.8.14-GCCcore-6.4.0
+
+job_id=$(echo $PBS_JOBID | awk -F. '{print $1}')
+
+cd $VSC_SCRATCH
+mkdir dpd_diff_$job_id
+cd dpd_diff_$job_id
+cp ~/diffdpd.py .
+
+mpirun -np 36 /scratch/leuven/322/vsc32262/espresso/build/pypresso diffdpd.py --aij=$aij --rho=$rho
+
+# end logging
+alog --state end  --exit $?
