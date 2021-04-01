@@ -1,5 +1,5 @@
 # Lees Edwards boundary conditions
-# Companian data and scripts
+# Companion data and scripts
 
 This repository contains extra information for the publication *Lees-Edwards boundary conditions for translation invariant shear flow: implementation and transport properties* by Sebastian Bindgen, Erin Koos, Florian Weik, Rudolf Weeber, and Pierre de Buyl.
 
@@ -21,3 +21,31 @@ vendor_id	: GenuineIntel
 
 ## Compilers and building ESPResSo
 
+### Build script and configuration file
+A script to build Espresso on the Genius cluster is provided in `lees_edwards_implementation/build_config/build_es.sh`. The necessary configuration file is available in `lees_edwards_implementation/build_config/myconfig.hpp`.
+
+### Compilers
+
+The compilers used are, for C:
+```bash
+user@tier2-p-login-2 ~ $ icc --version
+icc (ICC) 18.0.1 20171018
+Copyright (C) 1985-2017 Intel Corporation.  All rights reserved.
+
+user@tier2-p-login-2 ~ $ mpiicc --version
+icc (ICC) 18.0.1 20171018
+Copyright (C) 1985-2017 Intel Corporation.  All rights reserved.
+
+user@tier2-p-login-2 ~ $ mpiicpc --version
+icpc (ICC) 18.0.1 20171018
+Copyright (C) 1985-2017 Intel Corporation.  All rights reserved.
+
+```
+It is important to add `-fp-model=strict` to the `CMAKE_CXX_FLAGS` when the Intel compiler is used.
+
+## Reproducing data
+
+In order to reproduce the figures presented in the paper you can use the available Python script. The analysis is done with Jupyter notebooks.
+Python was used in version 3.6.4 on the cluster. 
+
+### Python scripts
