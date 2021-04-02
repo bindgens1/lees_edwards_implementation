@@ -7,7 +7,7 @@ A preprint of the article is available at *intert link here*.
 
 ## Hardware
 
-All simulations were performed in the Genius Cluster of KU euven and the University of Hasselt.
+All simulations were performed in the Genius Cluster of KU Leuven and the University of Hasselt.
 The hardware specifications are summarized with the following command-line programs:
 
 ```bash
@@ -49,3 +49,15 @@ In order to reproduce the figures presented in the paper you can use the availab
 Python was used in version 3.6.4 on the cluster. 
 
 ### Python scripts
+
+1. Diffusion coefficient
+To measure the diffusion coefficient the file `diffdpp.py` is used together with the parameter file `params_dpd.csv`. The analysis can be done wih the file `01-evaluate_diffusion_coeff.ipynb` and the final plot is created with `02-plot_diffusion_coefficient.ipynb`. We provide example data in the files `diffcoeff_50628659.npy`, `diffcoeff_50630218.npy`, `diffcoeff_50630219.npy` to create the plot presented in the paper. To go effectively over the entire range of simulation parameters `atools` is used as available here [atools](https://github.com/gjbex/atools) in order to create job arrays in place of single jobs. An example of a job script using such an array can be found in `param_sweep_dpd_compl.pbs`
+
+2. Convergence of stress autocorrelation functions
+The script `viscdpd.py` offers a measurement of the . In the file `03-plot_acf_convergence.ipynb` we show the convergence of the integral of the autocrrelation function for the different stress contributions. One is presented in the paper as well.
+
+3. Measurements of viscosity
+The viscoisity of the DPD fluid is measurend with the Green-Kubo method using the script `viscdpd.py`. The file `ledpd.py` provides a script to measure the viscosity with Lees-Edwards boundary conditions. The viscosity of the DPD fluids is evaluated in `04-evaluate_viscosity_green-kubo.ipynb` using the Green-Kubo method. The notebook `05-evaluate_Lees-Edwards_viscosity.ipynb` provides an evaluation routine for viscosities measured via the Lees-Edwards method. In order to compare these two measurment methods the file `06-plot_viscosity_comparison.ipynb` can be used where a side by side comparison is shown as well as a graph with all data overlayed. The files `visc_gk.txt` and `visc_le.txt`. Can be used as input to plot the comparison graphs.
+
+4. Flow profile and mean square displacement
+The script `trajdpd.py` creates trajectory files using the h5md-format during simulations with continous shear with the velocities provided in `params_dpd_vel.csv`. The notebook `07-plot_flowprofile.ipynb` plots the flow profiles for selected shear velocites and the notebook `08-plot_enhanced_diffusion_lin_shear.ipynb` evaluates the contribution of the enhanced diffusion. The same data for oscillatory shear flow can be generated using `trajdpd_osc.py` and the parameters (frequency and amplitude) given in `params_dpd_vel.csv`. The notebook `09-evaluate_enhanced_diffusion_osc_shear.ipynb` evaluates the trajectories and created the files `diffcoeff_osc_x_50617507.npy`, `diffcoeff_osc_x_50620357.npy`, `diffcoeff_osc_x_50623020.npy`, `diffcoeff_osc_z_50617507.npy`, `diffcoeff_osc_z_50620357.npy`, `diffcoeff_osc_z_50623020.npy` that can be used as input for the notebook `10-plot_enhanced_diffusion_osc_shear.ipynb` to generate the final plot showing the enhanced diffusion.
